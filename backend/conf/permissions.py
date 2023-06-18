@@ -12,4 +12,3 @@ class IsStaffOrTargetUser(permissions.BasePermission):
         # просматривать собственные данные,
         # позволяет сотрудникам просматривать все записи.
         return obj == request.user or request.user.is_staff
-

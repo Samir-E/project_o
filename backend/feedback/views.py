@@ -1,9 +1,8 @@
-from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import permissions, viewsets
 
-from conf.permissions import IsStaffOrTargetUser
-from feedback.models import BookFeedback
-from feedback.serializers import BookFeedbackSerializer
+from backend.conf.permissions import IsStaffOrTargetUser
+from backend.feedback.models import BookFeedback
+from backend.feedback.serializers import BookFeedbackSerializer
 
 
 # Create your views here.
