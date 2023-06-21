@@ -3,3 +3,52 @@ psycopg2==2.9.6
 djangorestframework==3.14.0
 djoser==2.2.0
 pillow==9.5.0
+# Package required to start backend
+# https://www.pyinvoke.org/
+invoke==1.7.3
+# Provide script for wait database
+# https://github.com/painless-software/django-probes
+django-probes==1.7.0
+# Reading env files and getting enviroment variables
+# https://github.com/joke2k/django-environ
+django-environ==0.9.0
+# DRF-spectacular for api documentation
+# https://github.com/tfranzel/drf-spectacular
+drf-spectacular==0.25.1
+# Debugger
+# https://github.com/gotcha/ipdb
+ipdb==0.13.11
+# Support django for type checking
+# https://github.com/typeddjango/django-stubs
+django-stubs==1.13.1
+# Support django rest framework for type checking
+# https://github.com/typeddjango/djangorestframework-stubs
+djangorestframework-stubs==1.8.0
+# Management support for django
+# https://github.com/django-extensions/django-extensions
+django-extensions==3.2.1
+# WSGI application library
+# watchdogs for checking changes in files
+# https://github.com/pallets/werkzeug
+werkzeug==2.2.2
+# Manage CORS headers for django settings
+# https://github.com/adamchainz/django-cors-headers
+django-cors-headers==3.13.0
+# Testing framework
+# https://github.com/pytest-dev/pytest
+pytest==7.2.0
+# Pretty pytest output and etc
+# https://github.com/Frozenball/pytest-sugar
+pytest-sugar==0.9.6
+# Provide fake data generation
+# https://github.com/FactoryBoy/factory_boy
+factory-boy==3.2.1
+# Support pytest for django
+# https://github.com/pytest-dev/pytest-django
+pytest-django==4.5.2
+# Add simple filters for drf
+# https://github.com/carltongibson/django-filter
+django-filter==22.1
+# Track if model is changed
+# https://github.com/romgar/django-dirtyfields/
+django-dirtyfields==1.9.2

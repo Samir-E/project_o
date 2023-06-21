@@ -1,10 +1,8 @@
-from rest_framework import viewsets, permissions
+from rest_framework import permissions, viewsets
 
-
-from conf.permissions import IsStaffOrTargetUser
-from booking.serializers import BookingSerializer
-from booking.models import Booking
-
+from backend.booking.models import Booking
+from backend.booking.serializers import BookingSerializer
+from backend.conf.permissions import IsStaffOrTargetUser
 
 # Create your views here.
 
@@ -18,7 +16,3 @@ class BookingViewSet(viewsets.ModelViewSet):
         # создавать с помощью POST
         return (permissions.IsAuthenticated()
                 if self.request.method == 'POST' else IsStaffOrTargetUser()),
-
-
-
-

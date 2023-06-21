@@ -1,9 +1,8 @@
 from rest_framework import viewsets
 
 from .conf.permissions import IsAdminUserOrReadOnly
-from .serializers import PositionSerializer
 from .models import Positions
-
+from .serializers import PositionSerializer
 
 # Create your views here.
 

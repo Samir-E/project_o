@@ -1,84 +1,111 @@
+from typing import Mapping
+
+from django.db.utils import IntegrityError
 from rest_framework import serializers
 
-from menu.serializers import PositionSerializer
-
-from .models import *
-
-
-class OrderSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(
-        default=serializers.CurrentUserDefault()
-    )
-
-    # order_num = serializers.CharField(read_only=True)
-
-    """Функция создания номера заказа"""
-
-    # def generate_order_num(self):
-    #     """идентификатор заказа + случайное число"""
-    #     from random import Random
-    #     random_ins = Random()
-    #     order_num = "{orderid}" \
-    #                 "{ranstr}".format(orderid=self.order.id,                #context['request'].
-    #                                   ranstr=random_ins.randint(1, 99))
-    #     return order_num
-
-    class Meta:
-        model = Orders
-        fields = "__all__"
+from .models import OrderPosition, Orders
 
 
 class OrderPositionSerializer(serializers.ModelSerializer):
-    position = PositionSerializer(many=True) # many=True
-    servings = serializers.IntegerField(default=1)
-    cost = serializers.IntegerField(read_only=True)
-
     class Meta:
         model = OrderPosition
-        fields = "__all__"
+        fields = (
+            'id',
+            'position',
+            'order',
+            'servings',
+            'cost',
+        )
+        read_only_fields = (
+            'cost',
+        )
 
 
-class PositionInOrderSerializer(serializers.ModelSerializer):
+class NestedOrderPositionSerializer(OrderPositionSerializer):
+    class Meta(OrderPositionSerializer.Meta):
+        read_only_fields = (
+            'order',
+            'cost',
+        )
+
+
+class UpdateOrderPositionSerializer(OrderPositionSerializer):
+    class Meta(OrderPositionSerializer.Meta):
+        read_only_fields = (
+            'position',
+            'order',
+            'cost',
+        )
+
+
+class OrdersSerializer(serializers.ModelSerializer):
+    """Serializer for `Order` model."""
+    positions = NestedOrderPositionSerializer(
+        many=True,
+        allow_null=True,
+        required=False,
+    )
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
-        model = PositionInOrder
-        fields = "__all__"
+        model = Orders
+        fields = (
+            'id',
+            'positions',
+            'total_price',
+            'create_order',
+            'status',
+            'user',
+        )
+        read_only_fields = (
+            'user',
+            'total_price',
+        )
 
-# class AddItemToCartSerializer(serializers.Serializer):
-#     """Сериализатор для добавления товара в корзину"""
-#     position = serializers.CharField()
-#     servings = serializers.IntegerField(default=1)
+    def create(self, validated_data):
+        """Override create method to provide creation of linked objects.
+
+        Create `OrderPosition` instances for an `Order` instance.
+
+        """
+        positions = validated_data.pop('positions', None) or []
+        instance = super().create(validated_data)
+
+        try:
+            OrderPosition.objects.bulk_create([
+                OrderPosition(
+                    order=instance,
+                    **position,
+                )
+                for position in positions
+            ])
+        except IntegrityError as error:
+            raise serializers.ValidationError(
+                {'positions': error},
+                code='unique_positions_violated',
+            )
+
+        return instance
 
 
-# class RemoveItemFromCartSerializer(serializers.Serializer):
-#     """Сериализатор для удаления товара из корзины"""
-#     position = serializers.CharField()
+class UpdateStatusOrderSerializer(OrdersSerializer):
+    def __init__(self, *args, **kwargs):
+        """Override init method to make `positions` read-only."""
+        self.fields['positions'].read_only = True
+        super().__init__(*args, **kwargs)
 
+    class Meta(OrdersSerializer.Meta):
+        read_only_fields = (
+            'id',
+            'positions',
+            'total_price',
+            'create_order',
+            'user',
+        )
 
-# class CartItemSerializer(serializers.ModelSerializer):
-#     """"Сериализатор объектов товаров в корзине"""
-#
-#     position = PositionSerializer()
-#
-#     class Meta:
-#         model = CartItem
-#         fields = "__all__"
-
-#
-# class ListRetrieveUserSerializer(serializers.ModelSerializer):
-#     """Сериализатор для объекта пользователь"""
-#
-#     class Meta:
-#         model = User
-#         fields = "__all__"
-
-
-# class CartSerializer(serializers.ModelSerializer):
-#     """Сериализатор объектов корзины"""
-#     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-#
-#     user = ListRetrieveUserSerializer()
-#     items = CartItemSerializer(many=True)
-#
-#     class Meta:
-#         model = Cart
-#         fields = "__all__"
+    def validate(self, attrs: Mapping[str, str]) -> Mapping[str, str]:
+        validated_data = super().validate(attrs)
+        status = validated_data['status']
+        self.instance.status = status
+        self.instance.full_clean()
+        return validated_data

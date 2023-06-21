@@ -1,10 +1,7 @@
 from django.contrib import admin
-from .models import *
 
+from .models import Orders, OrderPosition
 
 # Register your models here.
 admin.site.register(Orders)
 admin.site.register(OrderPosition)
-admin.site.register(PositionInOrder)
-# admin.site.register(Cart)
-# admin.site.register(CartItem)

@@ -1,0 +1,18 @@
+### Python cache
+__pycache__/
+
+# Ipython debugger
+.ipython/
+
+# Django stuff:
+staticfiles/
+media/
+
+# pyenv
+.python-version
+
+# mypy
+.mypy_cache/
+
+# env directory
+venv/
