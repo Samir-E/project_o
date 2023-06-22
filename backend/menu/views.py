@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from .conf.permissions import IsAdminUserOrReadOnly
+from ..conf.permissions import IsAdminUserOrReadOnly
 from .models import Positions
 from .serializers import PositionSerializer
 
