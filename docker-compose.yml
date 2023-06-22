@@ -7,7 +7,7 @@ services:
   postgres:
     build: ./compose/postgres/
     ports:
-      - "5432:5432"
+      - "5433:5433"
     image: postgres
     container_name: postgres
     volumes:
