@@ -62,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -189,20 +190,23 @@ SHELL_PLUS_PRE_IMPORTS = [
 # CORS SETTINGS
 # -----------------------------------------------------------------------------
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
-CORS_URLS_REGEX = r"^/api/.*$"
+CORS_URLS_REGEX = r'^/.*$'
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
-ALLOWED_HOSTS = ["*"]
-CORS_ALLOW_HEADERS = (
-    "content-disposition",
-    "accept-encoding",
-    "content-type",
-    "accept",
-    "origin",
-    "authorization",
-    "access-control-allow-methods",
-)
+# SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+# CORS_ALLOWED_ORIGINS = ['http://localhost:3030',]
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_CREDENTIALS = False
+# CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
+# ALLOWED_HOSTS = ["*"]
+# CORS_ALLOW_HEADERS = (
+#     "content-disposition",
+#     "accept-encoding",
+#     "content-type",
+#     "accept",
+#     "origin",
+#     "authorization",
+#     "access-control-allow-methods",
+# )
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#test-runner
 TEST_RUNNER = "utils.manage.pytest_runner.PytestTestRunner"
