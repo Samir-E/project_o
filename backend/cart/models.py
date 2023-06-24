@@ -29,10 +29,14 @@ class Orders(DirtyFieldsMixin, models.Model):
         verbose_name=_('Order status'),
         default=NOT_CONFIRMED,
     )
-    user = models.ForeignKey(
-        to=User,
-        verbose_name='Пользователь',
-        on_delete=models.PROTECT,
+    fio = models.CharField(
+        verbose_name='ФИО',
+        max_length=40,
+    )
+    mobile_number = models.CharField(
+        verbose_name='Номер телефона',
+        max_length=12,
+        help_text='+7**********'
     )
 
     class Meta:

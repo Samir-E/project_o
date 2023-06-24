@@ -4,9 +4,7 @@ from django.db import models
 
 
 class Positions(models.Model):
-    """
-    Товары из меню ресторана
-    """
+    """Товары из меню ресторана"""
     position_name = models.CharField(
         'Название позиции',
         max_length=30,
@@ -23,6 +21,10 @@ class Positions(models.Model):
         default='images_positions/default.jpg',
         blank=True,
         null=True,
+    )
+    ingredients = models.CharField(
+        'Ингредиенты блюда',
+        max_length=150,
     )
 
     class Meta:

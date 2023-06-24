@@ -61,7 +61,6 @@ class OrdersViewSet(
         'positions',
     )
     serializer_class = OrdersSerializer
-    permission_classes = (IsAuthenticated, )
     serializer_action_classes = {
         'change_order_status': UpdateStatusOrderSerializer,
     }
@@ -114,12 +113,11 @@ class OrderPositionActionsViewSet(
 ):
     """ViewSet для `OrderPosition` модели.
 
-    Это API доступно только для авторизованных пользователей.
+    Это API было доступно только для авторизованных пользователей.
 
     """
     queryset = OrderPosition.objects.all()
     serializer_class = OrderPositionSerializer
-    permission_classes = (IsAuthenticated, )
     filter_backends = (
         filters.OrderingFilter,
         DjangoFilterBackend,

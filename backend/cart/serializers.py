@@ -45,7 +45,6 @@ class OrdersSerializer(serializers.ModelSerializer):
         allow_null=True,
         required=False,
     )
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Orders
@@ -55,10 +54,10 @@ class OrdersSerializer(serializers.ModelSerializer):
             'total_price',
             'create_order',
             'status',
-            'user',
+            'fio',
+            'mobile_number',
         )
         read_only_fields = (
-            'user',
             'total_price',
         )
 
@@ -100,7 +99,8 @@ class UpdateStatusOrderSerializer(OrdersSerializer):
             'positions',
             'total_price',
             'create_order',
-            'user',
+            'fio',
+            'mobile_number',
         )
 
     def validate(self, attrs: Mapping[str, str]) -> Mapping[str, str]:

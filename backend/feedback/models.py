@@ -2,12 +2,10 @@ from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
-"""
-Книга отзывов
-"""
 
 
 class BookFeedback(models.Model):
+    """Книга отзывов"""
     fio = models.CharField(
         verbose_name='ФИО',
         max_length=40,
@@ -23,11 +21,6 @@ class BookFeedback(models.Model):
     date_record = models.DateTimeField(
         'Дата и время отзыва',
         auto_now_add=True,
-    )
-    author = models.ForeignKey(
-        User,
-        verbose_name='Пользователь',
-        on_delete=models.CASCADE,
     )
 
     class Meta:

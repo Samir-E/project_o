@@ -12,7 +12,6 @@ class BookingViewSet(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
 
     def get_permissions(self):
-        # разрешить пользователю, прошедшему проверку подлинности,
-        # создавать с помощью POST
-        return (permissions.IsAuthenticated()
+        # разрешить любому пользователю, создавать с помощью POST
+        return (permissions.AllowAny()
                 if self.request.method == 'POST' else IsStaffOrTargetUser()),

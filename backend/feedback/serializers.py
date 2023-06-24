@@ -4,7 +4,6 @@ from .models import BookFeedback
 
 
 class BookFeedbackSerializer(serializers.ModelSerializer):
-    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = BookFeedback
