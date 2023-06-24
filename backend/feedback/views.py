@@ -11,7 +11,6 @@ class BookFeedbackViewSet(viewsets.ModelViewSet):
     serializer_class = BookFeedbackSerializer
 
     def get_permissions(self):
-        # разрешить пользователю, прошедшему проверку подлинности,
-        # создавать с помощью POST
-        return (permissions.IsAuthenticated()
+        # разрешить пользователю, создавать с помощью POST
+        return (permissions.AllowAny()
                 if self.request.method == 'POST' else IsStaffOrTargetUser()),

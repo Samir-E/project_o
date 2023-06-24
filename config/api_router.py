@@ -9,7 +9,7 @@ urlpatterns = [
     path(r'feedback/', include('backend.feedback.urls')),
     path(r'cart/', include('backend.cart.urls')),
     path(r'booking/', include('backend.booking.urls')),
-    
-    path(r'auth/', include('djoser.urls')),
-    path(r'auth/', include('djoser.urls.authtoken')),
+
+    # path(r'auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # path(r'auth/', include('djoser.urls.authtoken')),
 ]
