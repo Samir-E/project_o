@@ -8,6 +8,6 @@ from .serializers import PositionSerializer
 
 
 class PositionViewSet(viewsets.ModelViewSet):
-    queryset = Positions.objects.all().order_by('-id')
+    queryset = Positions.objects.all().order_by('id')
     serializer_class = PositionSerializer
     permission_classes = [IsAdminUserOrReadOnly]
